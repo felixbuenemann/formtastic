@@ -1,4 +1,6 @@
 # encoding: utf-8
+require 'active_support'
+
 require 'formtastic/engine' if defined?(::Rails)
 
 module Formtastic
