@@ -86,7 +86,9 @@ module Formtastic
     #       </fieldset>
     #     </form>
     #
-    # @example Override Formtastic's assumption on when you need a multi select
+    # @example Override Formtastic's assumption on when you need a multi select (either works):
+    #   <%= f.input :authors, :as => :select, :multiple => true %>
+    #   <%= f.input :authors, :as => :select, :multiple => false %>
     #   <%= f.input :authors, :as => :select, :input_html => { :multiple => true } %>
     #   <%= f.input :authors, :as => :select, :input_html => { :multiple => false } %>
     #
@@ -207,13 +209,15 @@ module Formtastic
       end
 
       def multiple_by_options?
-        options[:multiple] || (options[:input_html] && options[:input_html][:multiple])
+        return options[:multiple] if options.key?(:multiple)
+        return options[:input_html][:multiple] if options.key?(:input_html) && options[:input_html].key?(:multiple)
       end
-
+      
       def multiple?
-        multiple_by_options? || multiple_by_association?
+        return multiple_by_options? unless multiple_by_options?.nil?
+        multiple_by_association?
       end
-
+      
       def single?
         !multiple?
       end

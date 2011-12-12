@@ -387,6 +387,22 @@ describe 'select input' do
     it 'should have a multi-select select' do
       output_buffer.should have_tag('form li select[@multiple="multiple"]')
     end
+    
+    it 'should allow non-multi select with the :multiple option' do
+      output_buffer.replace ''
+      concat(semantic_form_for(@freds_post) do |builder|
+        concat(builder.input(:authors, :as => :select, :multiple => false))
+      end)
+      output_buffer.should_not have_tag('form li select[@multiple="multiple"]')
+    end
+    
+    it 'should allow non-multi select with the :input_html option' do
+      output_buffer.replace ''
+      concat(semantic_form_for(@freds_post) do |builder|
+        concat(builder.input(:authors, :as => :select, :input_html => { :multiple => false }))
+      end)
+      output_buffer.should_not have_tag('form li select[@multiple="multiple"]')
+    end
 
     it 'should have a select option for each Author' do
       output_buffer.should have_tag('form li select option', :count => ::Author.all.size)
