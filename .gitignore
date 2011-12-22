@@ -8,7 +8,6 @@ pkg
 log/*
 .rvmrc
 .bundle
-Gemfile.lock
 .yardoc
 doc/
 tmp
